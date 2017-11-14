@@ -5,14 +5,39 @@ Result - Functional error handling ala Rust.
 
 SYNOPSIS
 ========
+```perl6
+use Result;
+use Result::Imports;
 
-use Result; use Result::Imports;
+sub schrödinger-roulette(Str $cat-name --> Result) {
+  given (0, 1).pick {
+    when 0 {
+      OK "{ $cat-name.tc } is alive!", :type(Str)
+    }
+    when 1 {
+      Error( "{ $cat-name.tc } is no more." )
+    }
+  }
+}
 
-sub schrödinger-roulette(Str $cat-name --> Result) { given (0, 1).pick { when 0 { OK "{ $cat-name.tc } is alive!", :type(Str) } when 1 { Error( "{ $cat-name.tc } is no more." ) } } }
+# dispatching errors without throwing
+given schrödinger-roulette("Dutches") {
+  when Result::OK {
+    say .value
+  }
+  when Result::Err {
+    say "Oh no! { .error } Let's give it another go...";
+  }
+}
 
-# dispatching errors without throwing given schrödinger-roulette("Dutches") { when Result::OK { say .value } when Result::Err { say "Oh no! { .error } Let's give it another go..."; } }
+# throw on errors
+schrödinger-roulette("O'Mally")
+  .ok("Perhaps we shouldn't be playing this game...")
+  .say;
+```
 
-# throw on errors schrödinger-roulette("O'Mally") .ok("Perhaps we shouldn't be playing this game...") .say;
+The first call may either say the returned `Str` or say the returned error.
+The Second call will either say the returned `Str` or through an exception with the error returned from the function combined with the error provided in `ok` method.
 
 DESCRIPTION
 ===========
