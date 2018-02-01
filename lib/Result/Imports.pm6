@@ -8,7 +8,7 @@ module Result::Imports {
   }
 
   sub Error(Str $error --> Result::Err) is export {
-    Result::Err.new(:$error);
+    Result::Err.new($error);
   }
 }
 

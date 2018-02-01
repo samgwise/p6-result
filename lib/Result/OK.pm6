@@ -20,10 +20,6 @@ class Result::OK does Result {
   }
 
   method ok(Str $) {
-    if $!is-okeyed {
-      warn "The ok method has already been called on this result, this will likely cause unpredictable behaviour!";
-    }
-
     self.value;
   }
 
