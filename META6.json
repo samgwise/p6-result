@@ -18,5 +18,5 @@
   "source-url" : "git://github.com/samgwise/p6-result.git",
   "tags" : ["Rust", "Functional", "Error", "FP" ],
   "test-depends" : [ ],
-  "version" : "0.0.1"
+  "version" : "0.1.0"
 }
