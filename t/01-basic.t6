@@ -1,0 +1,52 @@
+use v6.c;
+use Test;
+use lib 'lib';
+# plan 4;
+
+use-ok 'Result';
+use Result;
+
+# Test factory routines
+is  Ok('foo').is-ok, True,  "Ok factory";
+is Err('bar').is-err, True, "Err factory";
+
+# Ok
+{
+    my $result = Ok 'test';
+    is $result.defined, True, "Create defined Result::Ok";
+    is $result.so, True, "Result::Ok is True (.so)";
+    is $result.Bool, True, "Result::Ok is True (.bool)";
+    is $result.ok('testing'), 'test', "Result:OK resolves value";
+
+    my $handled = do given $result {
+        when Result::Ok { True }
+        when Result::Err { False }
+    }
+    is $handled, True, "Handle Result::Ok with given when";
+}
+
+# Err
+{
+    my $result = Err "I'm an error!";
+    is $result.defined, True, "Create defined Result::Err";
+    is $result.so, False, "Result::Err is falsy (.so)";
+    is $result.Bool, False, "Result::Err is falsy (.bool)";
+
+    my $handled = do given $result {
+        when Result::Ok { True }
+        when Result::Err { False }
+    }
+    is $handled, False, "Handle Result::Err with given when";
+
+    dies-ok { $result.ok('testing') }, "Result:Err dies on resolution";
+}
+
+# Test Result::Any in sub signitures
+{
+    my sub test(Result::Any $r --> Result::Any) { $r };
+
+    is test(Ok('foo')).is-ok, True, "Result::Any signiture with Result::Ok";
+    is test(Err('foo')).is-err, True, "Result::Any signiture with Result::Err";
+}
+
+done-testing

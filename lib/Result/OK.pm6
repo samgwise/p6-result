@@ -1,33 +1,18 @@
 use v6;
-use Result;
+use Result::Any;
 
-class Result::OK does Result {
-
-  has $!type;
-  has $!value;
-
-  submethod BUILD(:$!value is required, :$!type) {}
-
-  # Type safe return of our value
-  method value() {
-    if $!value ~~ $!type {
-      $!value
-    }
-    else {
-      # make into type exception
-      die "Value returned by OK failed type constraint. Expected { $!type.WHAT.perl } but recieved { $!value.WHAT.perl }";
-    }
-  }
+class Result::Ok does Result::Any {
+  has Any $.value;
 
   method ok(Str $) {
-    self.value;
+    $!value;
   }
 
   method is-ok( --> Bool) {
     True
   }
 
-  method is-err(--> Bool) {
+  method is-err( --> Bool) {
     False
   }
 }

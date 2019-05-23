@@ -1,10 +1,10 @@
 use v6;
-use Result::OK;
+use Result::Ok;
 use Result::Err;
 
 module Result::Imports {
-  sub OK($value, :$type --> Result::OK)  is export {
-    Result::OK.new( :$value :$type )
+  sub OK($value, :$type --> Result::Ok)  is export {
+    Result::Ok.new( :$value :$type )
   }
 
   sub Error(Str $error --> Result::Err) is export {
@@ -14,7 +14,7 @@ module Result::Imports {
 
 sub EXPORT() {
   %(
-    'Result::OK'  => Result::OK,
+    'Result::Ok'  => Result::Ok,
     'Result::Err' => Result::Err,
   )
 }

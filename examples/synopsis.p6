@@ -1,22 +1,21 @@
 #! /usr/bin/env perl6
 use v6;
 use Result;
-use Result::Imports;
 
-sub schrödinger-roulette(Str $cat-name --> Result) {
+sub schrödinger-roulette(Str $cat-name --> Result::Any) {
   given (0, 1).pick {
     when 0 {
-      OK( "{ $cat-name.tc } is alive!", :type(Str) )
+      Ok "{ $cat-name.tc } is alive!"
     }
     when 1 {
-      Error( "{ $cat-name.tc } is no more." )
+      Err "{ $cat-name.tc } is no more."
     }
   }
 }
 
 # managed errors
 given schrödinger-roulette("Dutches") {
-  when Result::OK {
+  when Result::Ok {
     say .value
   }
   when Result::Err {
