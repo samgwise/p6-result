@@ -23,6 +23,14 @@ is Err('bar').is-err, True, "Err factory";
         when Result::Err { False }
     }
     is $handled, True, "Handle Result::Ok with given when";
+
+    with $result.err-to-undef {
+        pass "Result:Ok.err-to-undef does pass through to with block";
+        is $_, 'test', "err-to-undef returns Result::Ok.value";
+    }
+    else {
+        fail "Result:Ok.err-to-undef does not pass through to with block"
+    }
 }
 
 # Err
@@ -37,6 +45,13 @@ is Err('bar').is-err, True, "Err factory";
         when Result::Err { False }
     }
     is $handled, False, "Handle Result::Err with given when";
+
+    with $result.err-to-undef {
+        fail "Result:Err.err-to-undef should not pass through to with block"
+    }
+    else {
+        pass "Result:Err.err-to-undef does not pass through to with block"
+    }
 
     dies-ok { $result.ok('testing') }, "Result:Err dies on resolution";
 }

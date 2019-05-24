@@ -104,7 +104,7 @@ sub Ok(
 ) returns Result::Ok
 ```
 
-Creates a Result::OK containing the given value. To extract the payload, after checking with `*.is-ok` or `* ~~ Result::OK`, you can read the .value attribute.
+Creates a Result::OK containing the given value. To extract the payload, after checking with `*.is-ok` or `* ~~ Result::OK`, you can read the `.value` attribute.
 
 ### sub Err
 
@@ -114,5 +114,5 @@ sub Err(
 ) returns Result::Err
 ```
 
-Creates a Result::Err with the given message. The message is readable from the .error attribute.
+Creates a Result::Err with the given message. The message is readable from the ``.error` attribute.
 
