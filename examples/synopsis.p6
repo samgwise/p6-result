@@ -2,6 +2,7 @@
 use v6;
 use Result;
 
+# A routine which returns an Err or an Ok result
 sub schrödinger-roulette(Str $cat-name --> Result::Any) {
   given (0, 1).pick {
     when 0 {

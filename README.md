@@ -3,27 +3,31 @@
 Result
 ======
 
-Result - Functional error handling ala Rust.
+Result - Encapsulate the result of a computation.
 
 SYNOPSIS
 ========
 
+Result is a simple module which provides some tools for returning values from a function and signaling to the caller if the function succeded or failed. Results are an explicitly returned encapsulation and therefore have to be used to access the return of a function, in contrast to a perl6 Failure which is invisible unless there is a problem.
+
+The synopsis below demonstrates handling a Result and just unwrapping it and accepting the exception if it's an Result::Err.
+
 ```perl6
 use Result;
-use Result::Imports;
 
-sub schrödinger-roulette(Str $cat-name --> Result) {
+# A routine which returns an Err or an Ok result
+sub schrödinger-roulette(Str $cat-name --> Result::Any) {
   given (0, 1).pick {
     when 0 {
-      OK "{ $cat-name.tc } is alive!", :type(Str)
+      Ok "{ $cat-name.tc } is alive!"
     }
     when 1 {
-      Error( "{ $cat-name.tc } is no more." )
+      Err "{ $cat-name.tc } is no more."
     }
   }
 }
 
-# dispatching errors without throwing
+# managed errors
 given schrödinger-roulette("Dutches") {
   when Result::Ok {
     say .value
@@ -33,7 +37,7 @@ given schrödinger-roulette("Dutches") {
   }
 }
 
-# throw on errors
+# Unmanaged errors
 schrödinger-roulette("O'Mally")
   .ok("Perhaps we shouldn't be playing this game...")
   .say;
@@ -53,6 +57,33 @@ See Also
 
 The perl6 failure constructs provide slightly different approach for solving the same problem, be sure to consider if they might be a better fit for your needs.
 
+Changes
+=======
+
+0.2.0 - current version
+-----------------------
+
+Major braking changes!
+
+  * Result role renamed Result::Any - use this instead in signitures.
+
+  * All result objects and helpers are exported with `use Result;`. Multiple imports are no longer required.
+
+  * Result::Err is no longer a Failure object. This fixes throwing of exceptions when requesting an error message from a Result::Err object which happens in newer version of Rakudo.
+
+  * Result::OK renamed to Result::Ok. The nameing is now more consistent and feels better.
+
+  * Factory routine Error renamed Err. More consistent nameing.
+
+  * Factory routine OK renamed Ok. More consistent nameing. Lowercase was considered but it clashes to easily with the Test module so leading case naming was maintained for factory routines.
+
+  * Type constraining of Result::Ok payloads removed as I have not encoutered a useful application of this feature whle using the Result module.
+
+0.1.0
+-----
+
+Initial release of Result module. Result:Err objects are Failures and do the Result role. Experimental type constraining of Result::OK object payloads.
+
 AUTHOR
 ======
 
@@ -64,4 +95,24 @@ COPYRIGHT AND LICENSE
 Copyright 2017 Sam Gillespie
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
+### sub Ok
+
+```perl6
+sub Ok(
+    $value
+) returns Result::Ok
+```
+
+Creates a Result::OK containing the given value. To extract the payload, after checking with `*.is-ok` or `* ~~ Result::OK`, you can read the .value attribute.
+
+### sub Err
+
+```perl6
+sub Err(
+    Str $error
+) returns Result::Err
+```
+
+Creates a Result::Err with the given message. The message is readable from the .error attribute.
 
