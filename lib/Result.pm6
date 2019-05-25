@@ -1,4 +1,4 @@
-unit module Result:ver<0.2.0>;
+unit module Result:ver<0.2.2>;
 
 =begin pod
 
@@ -64,11 +64,14 @@ If there is a violation of the constraint an exception will be thrown.
 
 =head1 See Also
 
-The perl6 failure constructs provide slightly different approach for solving the same problem, be sure to consider if they might be a better fit for your needs.
+The perl6 C<Failure> constructs provide slightly different approach for solving the same problem, be sure to consider if they might be a better fit for your needs. For more, see: L<https://docs.perl6.org/language/control#fail>
 
 =head1 Changes
 
-=head2 0.2.0 - current version
+=head 0.2.2
+=item Added C<.err-to-undef> to facilitate use of Result values in C<with> blocks.
+
+=head2 0.2.0
 
 Major braking changes!
 
@@ -92,7 +95,7 @@ Sam Gillespie <samgwise@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2017 Sam Gillespie
+Copyright 2019 Sam Gillespie
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

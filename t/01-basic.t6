@@ -26,7 +26,7 @@ is Err('bar').is-err, True, "Err factory";
 
     with $result.err-to-undef {
         pass "Result:Ok.err-to-undef does pass through to with block";
-        is $_, 'test', "err-to-undef returns Result::Ok.value";
+        is .value, 'test', "err-to-undef returns Result::Ok";
     }
     else {
         fail "Result:Ok.err-to-undef does not pass through to with block"

@@ -55,13 +55,20 @@ The value of a `Result::Ok` message may have a type check applied to it. If ther
 See Also
 ========
 
-The perl6 failure constructs provide slightly different approach for solving the same problem, be sure to consider if they might be a better fit for your needs.
+The perl6 `Failure` constructs provide slightly different approach for solving the same problem, be sure to consider if they might be a better fit for your needs. For more, see: [https://docs.perl6.org/language/control#fail](https://docs.perl6.org/language/control#fail)
 
 Changes
 =======
 
-0.2.0 - current version
------------------------
+head
+====
+
+0.2.2
+
+  * Added `.err-to-undef` to facilitate use of Result values in `with` blocks.
+
+0.2.0
+-----
 
 Major braking changes!
 
@@ -92,7 +99,7 @@ Sam Gillespie <samgwise@gmail.com>
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright 2017 Sam Gillespie
+Copyright 2019 Sam Gillespie
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

@@ -24,5 +24,5 @@ method Bool( --> Bool) {
 # Util for use in with blocks, generalised implimentation:
 method err-to-undef( --> Any) {
     return Any if self.is-err;
-    self.ok("Error unwrapping ok value with .ok");
+    self
 }
