@@ -1,4 +1,4 @@
-unit module Result:ver<0.2.2>;
+unit module Result:ver<0.2.3>;
 
 =begin pod
 

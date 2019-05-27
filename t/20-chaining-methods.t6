@@ -1,0 +1,15 @@
+#! /usr/bin/env perl6
+use v6;
+use Test;
+use lib 'lib';
+# plan 4;
+
+use Result;
+
+is Ok('foo').map-err( { Ok 'bar' } ).value, 'foo', "Ok.map-err";
+is Err('foo').map-err( { Ok 'bar' } ).value, 'bar', "Err.map-err";
+
+is Ok('foo').map-ok( { Ok 'bar' } ).value, 'bar', "Ok.map-ok";
+is Err('foo').map-ok( { Ok 'bar' } ).WHAT, Result::Err, "Err.map-ok";
+
+done-testing
