@@ -17,33 +17,44 @@ The synopsis below demonstrates handling a Result and just unwrapping it and acc
 
 use Result;
 
-# A routine which returns an Err or an Ok result
-sub schrödinger-roulette(Str $cat-name --> Result::Any) {
-  given (0, 1).pick {
-    when 0 {
-      Ok "{ $cat-name.tc } is alive!"
-    }
-    when 1 {
-      Err "{ $cat-name.tc } is no more."
-    }
-  }
+# An example function for attempting a conversion of a value to an Int.
+# This function can return two outcomes.
+# An Ok outcome with either an Int or something whcih accepts .Int or otherwise an Err.
+sub to-int(Any $val --> Result::Any) {
+    return Ok $val if $val ~~ Int;
+    try return Ok $val.Int;
+    Err "Unable to convert value of type { $val.WHAT.perl } to Int."
 }
 
-# managed errors
-given schrödinger-roulette("Dutches") {
-  when Result::Ok {
-    say .value
-  }
-  when Result::Err {
-    say "Oh no! { .error } Let's give it another go...";
-  }
+# To get the result of the conversion you have to access it via the returned Result object.
+my @test-values = "Not an Int", 7, "42", Any, pi;
+for @test-values -> $val {
+    given to-int($val) {
+        when .is-ok { say "{ $val.WHAT.perl } $val converted to Int { .value }" }
+        when .is-err { say "Well that wasn't an Int: { .error }" }
+    }
 }
 
-# Unmanaged errors
-schrödinger-roulette("O'Mally")
-  .ok("Perhaps we shouldn't be playing this game...")
-  .say;
+# If you want an exception on error but the value otherwise you can use .ok
+say 'The numeral 3 is an Int' ~ to-int('3').ok('Unable to convert value to Int');
 
+try {
+    CATCH { 
+        default { say .gist }
+    }
+    say 'My asciimote is an Int: ' ~ to-int('<3').ok('No, even asciimotes are not an Int!');
+}
+
+# You can also use a with block
+for @test-values -> $val {
+    with to-int($val).err-to-undef {
+        say "{ $val.WHAT.perl } $val converted to Int { .value }"
+    }
+    else {
+        say "Well '{ $val.gist }' wasn't an Int"
+    }
+
+}
 
 =end code
 

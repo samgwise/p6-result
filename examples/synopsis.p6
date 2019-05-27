@@ -1,5 +1,4 @@
 #! /usr/bin/env perl6
-use v6;
 use Result;
 
 # A routine which returns an Err or an Ok result
