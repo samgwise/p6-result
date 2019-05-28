@@ -133,5 +133,15 @@ sub Err(
 ) returns Result::Err
 ```
 
-Creates a Result::Err with the given message. The message is readable from the ``.error` attribute.
+Creates a Result::Err with the given message. The message is readable from the `.error` attribute.
+
+### sub result
+
+```perl6
+sub result(
+    &code
+) returns Result::Any
+```
+
+Wraps the returned value of a Callable in a `Result::OK` and returns exceptions as a `Result::Err`
 

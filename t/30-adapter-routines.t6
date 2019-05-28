@@ -1,0 +1,26 @@
+#! /usr/bin/env perl6
+use v6;
+use Test;
+use lib 'lib';
+# plan 4;
+
+use Result;
+{
+    my $err = result { die "bang!" }
+    is $err.defined, True, 'result returns defined value for exception';
+    is $err.is-err, True, 'result returns an Err on an exception';
+}
+
+{
+    my $ok = result { 'foo' }
+    is $ok.defined, True, 'result returns defined value for normal return';
+    is $ok.ok('Not actually ok...'), 'foo', 'result returns an Ok for normal return';
+}
+
+{
+    my $err = result { fail "boo!" }
+    is $err.defined, True, 'result returns defined value for failure';
+    is $err.is-err, True, 'result returns an Err return of failure';
+}
+
+done-testing

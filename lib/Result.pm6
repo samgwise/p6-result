@@ -124,8 +124,26 @@ our sub Ok($value --> Result::Ok) is export {
 
 our sub Err(Str $error --> Result::Err) is export {
     #= Creates a Result::Err with the given message.
-    #= The message is readable from the ``.error` attribute.
-    Result::Err.new(:$error);
+    #= The message is readable from the `.error` attribute.
+    Result::Err.new(:$error)
+}
+
+#
+# Adapter routines
+#
+
+our sub result(&code --> Result::Any) is export {
+    #= Wraps the returned value of a Callable in a `Result::OK`
+    #= and returns exceptions as a `Result::Err`
+    my Result::Any $r;
+    try {
+        CATCH {
+            default { $r = Result::Err.new(:error(.gist)) }
+        }
+        $r = Result::Ok.new(:value(code))
+    }
+
+    $r
 }
 
 # Define rexport of sub modules
