@@ -12,7 +12,7 @@
     "Result" : "lib/Result.pm6",
     "Result::Any" : "lib/Result/Any.pm6",
     "Result::Err" : "lib/Result/Err.pm6",
-    "Result::OK" : "lib/Result/OK.pm6"
+    "Result::Ok" : "lib/Result/Ok.pm6"
   },
   "resources" : [ ],
   "source-url" : "git://github.com/samgwise/p6-result.git",
