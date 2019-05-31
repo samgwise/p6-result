@@ -29,7 +29,7 @@ try {
     say 'My asciimote is an Int: ' ~ to-int('<3').ok('No, even asciimotes are not an Int!');
 }
 
-# You can also use a with block
+# You can also use a with block via the .err-to-undef adapter method.
 for @test-values -> $val {
     with to-int($val).err-to-undef {
         say "{ $val.WHAT.perl } $val converted to Int { .value }"
@@ -38,4 +38,17 @@ for @test-values -> $val {
         say "Well '{ $val.gist }' wasn't an Int"
     }
 
+}
+
+# Lasty if in doubt, you can wrap any code with a result block to wrap any exceptions or failures to results.
+# Oh and results will also be returned as is so don't worry if you mix things up!
+for <die fail smile other> {
+    my $val = result {
+        when 'die'   { die 'boom' }
+        when 'fail'  { fail 'bang' }
+        when 'smile' { Ok '☺' }
+        default      { '★' }
+    }
+
+    say "$_ => { $val.WHAT.gist } with value: { $val.map-err( { Ok .error } ).value }";
 }

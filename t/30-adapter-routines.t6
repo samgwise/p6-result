@@ -14,13 +14,25 @@ use Result;
 {
     my $ok = result { 'foo' }
     is $ok.defined, True, 'result returns defined value for normal return';
-    is $ok.ok('Not actually ok...'), 'foo', 'result returns an Ok for normal return';
+    is $ok.ok('Should not be an error'), 'foo', 'result returns an Ok for normal return';
 }
 
 {
     my $err = result { fail "boo!" }
     is $err.defined, True, 'result returns defined value for failure';
     is $err.is-err, True, 'result returns an Err return of failure';
+}
+
+{
+    my $ok = result { Ok "foo" }
+    is $ok.defined, True, 'result returns defined value for Result::Ok';
+    is $ok.value, 'foo', 'result returns an Ok for return of Result::Ok';
+}
+
+{
+    my $err = result { Err "biff!" }
+    is $err.defined, True, 'result returns defined value for Result::Err';
+    is $err.error, 'biff!', 'result returns an Err for return of Result::Err';
 }
 
 done-testing
