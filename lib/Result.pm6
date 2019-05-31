@@ -126,6 +126,7 @@ For more on Failures, see: L<https://docs.perl6.org/language/control#fail>.
 =head2 0.2.0
 
 Major braking changes!
+Either specify a version tag or you can try the migration script: L<migrate-0.1.0-to-0.2.0.p6 | https://github.com/samgwise/p6-result/tools/migrate-0.1.0-to-0.2.0.p6>.
 
 =item Result role renamed Result::Any - use this instead in signitures.
 =item All result objects and helpers are exported with C<use Result;>. Multiple imports are no longer required.

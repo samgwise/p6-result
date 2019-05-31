@@ -130,7 +130,7 @@ head
 0.2.0
 -----
 
-Major braking changes!
+Major braking changes! Either specify a version tag or you can try the migration script: [migrate-0.1.0-to-0.2.0.p6](https://github.com/samgwise/p6-result/tools/migrate-0.1.0-to-0.2.0.p6).
 
   * Result role renamed Result::Any - use this instead in signitures.
 
