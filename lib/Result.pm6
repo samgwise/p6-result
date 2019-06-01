@@ -1,4 +1,4 @@
-unit module Result:ver<0.2.3>;
+unit module Result:ver<0.2.4>;
 
 =begin pod
 
@@ -113,6 +113,14 @@ Be sure to consider if they might be a better fit for your needs.
 For more on Failures, see: L<https://docs.perl6.org/language/control#fail>.
 
 =head1 Changes
+
+=head 0.2.4
+
+Contributed by L<JJ | https://github.com/JJ>
+
+=item Type constraint on C<Result::Ok.value> attributes relaxed.
+=item Internal refactoring of C<.is-ok> and C<.is-err> from methods to attributes.
+=item Cleaned up documentation
 
 =head 0.2.3
 
