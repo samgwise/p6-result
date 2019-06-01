@@ -2,7 +2,7 @@ use v6;
 use Result::Any;
 
 class Result::Ok does Result::Any {
-    has Any $.value;
+    has $.value;
 
     submethod TWEAK() {
         $!is-ok = True;
