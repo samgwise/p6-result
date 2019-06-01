@@ -6,13 +6,11 @@ class Result::Ok does Result::Any {
 
     submethod TWEAK() {
         $!is-ok = True;
+        $!is-err = False;
     }
 
-  method ok(Str $) {
-    $!value;
-  }
+    method ok(Str $) {
+        $!value;
+    }
 
-  method is-err( --> Bool) {
-    False
-  }
 }

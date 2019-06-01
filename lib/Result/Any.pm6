@@ -10,7 +10,7 @@ method ok(Str $err-msg) { ... }
 
 has Bool $.is-ok;
 
-method is-err(--> Bool) { ... }
+has Bool $.is-err;
 
 # Boolean behaviour for Result objects dispatches to their .is-ok status
 method so( --> Bool) {
@@ -39,6 +39,6 @@ method map-err(&with-err --> Result::Any) {
 
 #! Call the given Callable for Result::Ok objects but just pass along a Result::Err.
 method map-ok(&with-ok --> Result::Any) {
-    return self if self.is-err;
+    return self if $!is-err;
     with-ok(self)
 }
