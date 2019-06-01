@@ -2,17 +2,15 @@ use v6;
 use Result::Any;
 
 class Result::Ok does Result::Any {
-  has Any $.value;
+    has $.value;
 
-  method ok(Str $) {
-    $!value;
-  }
+    submethod TWEAK() {
+        $!is-ok = True;
+        $!is-err = False;
+    }
 
-  method is-ok( --> Bool) {
-    True
-  }
+    method ok(Str $) {
+        $!value;
+    }
 
-  method is-err( --> Bool) {
-    False
-  }
 }
