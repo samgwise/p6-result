@@ -8,17 +8,17 @@ unit role Result::Any;
 
 method ok(Str $err-msg) { ... }
 
-method is-ok( --> Bool) { ... }
+has Bool $.is-ok;
 
 method is-err(--> Bool) { ... }
 
 # Boolean behaviour for Result objects dispatches to their .is-ok status
 method so( --> Bool) {
-    self.is-ok
+    $!is-ok
 }
 
 method Bool( --> Bool) {
-    self.is-ok
+    $!is-ok
 }
 
 #! Util for use in with blocks, generalised implimentation:
@@ -33,7 +33,7 @@ method err-to-undef( --> Any) {
 
 #! Calls the given Callable for Result::Err objects but just pass along a Result::Ok.
 method map-err(&with-err --> Result::Any) {
-    return self if self.is-ok;
+    return self if $!is-ok;
     with-err(self)
 }
 
