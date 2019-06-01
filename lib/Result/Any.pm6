@@ -37,7 +37,7 @@ method map-err(&with-err --> Result::Any) {
     with-err(self)
 }
 
-#! Call the given Callable for Result::Ok objects but just passes along a Result::Err.
+#! Call the given Callable for Result::Ok objects but just passesz along a Result::Err.
 method map-ok(&with-ok --> Result::Any) {
     return self if $!is-err;
     with-ok(self)
