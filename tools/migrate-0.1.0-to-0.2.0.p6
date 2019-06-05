@@ -15,22 +15,27 @@ say 'Migration script is currently in preview mode, pass the "--apply-migration"
 
 # Checks a line and returns the recommended alteration
 sub line-parser(Str $line --> Str) {
+    return $line if $line ~~ /^ '#' /;  # Skip commented lines
+    return $line if $line eq '';        # Skip empty lines
+
     my $migrated = $line;
     my $changed = True;
     loop {
         given $migrated {
-            when !$_.defined { last } # End if the line has been emptied
-            when /^ '#' / { last } # Skip comments
+            when !defined($_) { last } # End if the line has been emptied
             when /(.+) 'Result::OK' (.+)/ {
                 $migrated = join '', $0, 'Result::Ok', $1;
             }
             when /(.+ ['-->' || 'returns'] \s+) 'Result' <!before ':'> (.+)/ {
                 $migrated = join '', $0, 'Result::Any', $1;
             }
+            when /(.+) 'Result' (\s+ '$' .+)/ {
+                $migrated = join '', $0, 'Result::Any', $1;
+            }
             when /(.+) <|w> 'OK' <!before [\' || \"]> ([\s*'(' || \s ] .+)/ {
                 $migrated = join '', $0, 'Ok', $1;
             }
-            when /(.+) <|w> 'Error' <!before [\' || \"]> ([\s*'(' || \s ] .+)/ {
+            when /(.+) <|w> <!after <['"]>> 'Error' <!before [\' || \"]> ([\s*'(' || \s ] .+)/ {
                 $migrated = join '', $0, 'Err', $1;
             }
             when /^\s* 'use' \s+ 'Result::Imports' \s* ';' \s* $/ {
