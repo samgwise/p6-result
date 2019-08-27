@@ -1,4 +1,4 @@
-unit module Result:ver<0.2.4>;
+unit module Result:ver<0.2.5>;
 
 =begin pod
 
@@ -8,7 +8,7 @@ Result - Encapsulate the result of a computation.
 
 =head1 SYNOPSIS
 
-Result is a simple module which provides some tools for returning values from a function and signaling to the caller if the function succeded or failed.
+Result is a simple module which provides some tools for returning values from a function and signaling to the caller if the function succeeded or failed.
 Results are an explicitly returned encapsulation and therefore have to be used to access the return of a function, in contrast to a perl6 Failure which is invisible unless there is a problem.
 
 The synopsis below demonstrates handling a Result and just unwrapping it and accepting the exception if it's an Result::Err.
@@ -20,7 +20,7 @@ use Result;
 
 # An example function for attempting a conversion of a value to an Int.
 # This function can return two outcomes.
-# An Ok outcome with either an Int or something whcih accepts .Int or otherwise an Err.
+# An Ok outcome with either an Int or something which accepts .Int or otherwise an Err.
 sub to-int(Any $val --> Result::Any) {
     return Ok $val if $val ~~ Int;
     try return Ok $val.Int;
@@ -57,7 +57,7 @@ for @test-values -> $val {
 
 }
 
-# Lasty if in doubt, you can wrap any code with a result block to wrap any exceptions or failures to results.
+# Lastly if in doubt, you can wrap any code with a result block to wrap any exceptions or failures to results.
 # Oh and results will also be returned as is so don't worry if you mix things up!
 for <die fail smile other> {
     my $val = result {
@@ -74,11 +74,11 @@ for <die fail smile other> {
 
 =head1 DESCRIPTION
 
-Result was originally inspired by Rust's Result enum, but Perl 6 is a rather different languages and as such while the core conecpt remains, the implimentation and features are distinct.
+Result was originally inspired by Rust's Result enum, but Perl 6 is a rather different languages and as such while the core concept remains, the implementation and features are distinct.
 The Result module provides an error management framework similar to Perl6's Failures, but with stricter semantics.
 
-The error handling pattern provided by the Result module trys to make it as clear as possible to the consumer of a function, that the function can return an error and therefore the consumer must take responsability for handling an error case.
-Therfore all values returned from a function, for which success is not certain, are of the C<Result::Any> type, either an OK or an Err.
+The error handling pattern provided by the Result module attempts to make as clear as possible to the consumer of a function, that the function can return an error and therefore the consumer must take responsibility for handling an error case.
+Therefore all values returned from a function, for which success is not certain, are of the C<Result::Any> type, either an OK or an Err.
 Hence to obtain the value returned by the function you can choose to dispatch the error yourself with the following methods:
 =item C<.is-ok>
 =item C<.is-err>
@@ -97,12 +97,12 @@ There are two methods provided in the C<Result::Any> interface for chaining comp
 
 These routines call the provided C<Callable> if their C<is-*> identity is C<True> and otherwise will simply skip the C<Callable> and return the result object as is.
 The first argument to the C<Callable> will be the result object which is being mapped.
-Be sure to return a result object else you will end up throwing an excepetion.
+Be sure to return a result object else you will end up throwing an exception.
 
-=head2 Interfaceing with core Perl 6 error handling
+=head2 Interfacing with core Perl 6 error handling
 
-The idententy methods, C<.is-*> work well with the <given when> pattern but the C<with> pattern depends on the definedness of the topic.
-An instace of Result::Any is defined (although an Err is Falsy and a Ok is Trueish), so to use a result object in a with block, use the C<.err-to-undef> method (See the synopsis for an example).
+The identity methods, C<.is-*> work well with the <given when> pattern but the C<with> pattern depends on the definedness of the topic.
+An instance of Result::Any is defined (although an Err is Falsy and a Ok is Trueish), so to use a result object in a with block, use the C<.err-to-undef> method (See the synopsis for an example).
 
 If you want to adapt existing perl6 code to return an appropriate C<Result::Any> value, use the C<result> sub (See the synopsis for an example and below for more detail).
 
@@ -113,6 +113,11 @@ Be sure to consider if they might be a better fit for your needs.
 For more on Failures, see: L<https://docs.perl6.org/language/control#fail>.
 
 =head1 Changes
+
+=head 0.2.5
+
+=item Fixed issue #2 duplicate call of callable block in result routine.
+=item Minor tweaks of the documentation.
 
 =head 0.2.4
 
@@ -136,13 +141,13 @@ Contributed by L<JJ | https://github.com/JJ>
 Major braking changes!
 Either specify a version tag or you can try the migration script: L<migrate-0.1.0-to-0.2.0.p6 | https://github.com/samgwise/p6-result/blob/master/tools/migrate-0.1.0-to-0.2.0.p6>.
 
-=item Result role renamed Result::Any - use this instead in signitures.
+=item Result role renamed Result::Any - use this instead in signatures.
 =item All result objects and helpers are exported with C<use Result;>. Multiple imports are no longer required.
 =item Result::Err is no longer a Failure object. This fixes throwing of exceptions when requesting an error message from a Result::Err object which happens in newer version of Rakudo.
-=item Result::OK renamed to Result::Ok. The nameing is now more consistent and feels better.
-=item Factory routine Error renamed Err. More consistent nameing.
-=item Factory routine OK renamed Ok. More consistent nameing. Lowercase was considered but it clashes to easily with the Test module so leading case naming was maintained for factory routines.
-=item Type constraining of Result::Ok payloads removed as I have not encoutered a useful application of this feature whle using the Result module.
+=item Result::OK renamed to Result::Ok. The naming is now more consistent and feels better.
+=item Factory routine Error renamed Err. More consistent naming.
+=item Factory routine OK renamed Ok. More consistent naming. Lowercase was considered but it clashes to easily with the Test module so leading case naming was maintained for factory routines.
+=item Type constraining of Result::Ok payloads removed as I have not encountered a useful application of this feature while using the Result module.
 
 =head2 0.1.0
 
@@ -196,7 +201,7 @@ our sub result(&code --> Result::Any) is export {
 
         ( $val ~~ Result::Any )
           ?? ( $r = $val )
-          !! ( $r = Result::Ok.new(:value(code)) )
+          !! ( $r = Result::Ok.new(:value($val)) )
     }
 
     $r

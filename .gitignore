@@ -6,3 +6,7 @@
 /resources/*.dylib
 .precomp/
 /Result-*
+
+# Exclude comma
+*.iml
+.idea

@@ -35,4 +35,14 @@ use Result;
     is $err.error, 'biff!', 'result returns an Err for return of Result::Err';
 }
 
+# Issue #2 double call of code
+{
+    my Int $mutable = 1;
+    my $ok = result -> { $mutable += 1 }
+    is $ok.value, 2, "Callable is only called once";
+
+    $ok = result -> { Ok $mutable += 1 }
+    is $ok.value, 3, "Callable is only called once";
+}
+
 done-testing

@@ -1,28 +1,29 @@
 {
-  "authors" : [
+  "name": "Result",
+  "description": "Encapsulate the results of a computation.",
+  "version": "0.2.5",
+  "perl": "6.c",
+  "authors": [
     "Sam Gillespie"
   ],
-  "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "Encapsulate the results of a computation.",
-  "license" : "Artistic-2.0",
-  "name" : "Result",
-  "perl" : "6.c",
-  "provides" : {
-    "Result" : "lib/Result.pm6",
-    "Result::Any" : "lib/Result/Any.pm6",
-    "Result::Err" : "lib/Result/Err.pm6",
-    "Result::Ok" : "lib/Result/Ok.pm6"
+  "auth": "samgwise",
+  "depends": [],
+  "build-depends": [],
+  "test-depends": [],
+  "provides": {
+    "Result": "lib/Result.pm6",
+    "Result::Any": "lib/Result/Any.pm6",
+    "Result::Err": "lib/Result/Err.pm6",
+    "Result::Ok": "lib/Result/Ok.pm6"
   },
-  "resources" : [ ],
-  "source-url" : "git://github.com/samgwise/p6-result.git",
-  "tags" : [
+  "resources": [],
+  "license": "Artistic-2.0",
+  "tags": [
     "Failure",
     "Functional",
     "Error",
     "FP",
     "Exception"
   ],
-  "test-depends" : [ ],
-  "version" : "0.2.4"
+  "source-url": "git://github.com/samgwise/p6-result.git"
 }

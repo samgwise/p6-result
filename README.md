@@ -8,7 +8,7 @@ Result - Encapsulate the result of a computation.
 SYNOPSIS
 ========
 
-Result is a simple module which provides some tools for returning values from a function and signaling to the caller if the function succeded or failed. Results are an explicitly returned encapsulation and therefore have to be used to access the return of a function, in contrast to a perl6 Failure which is invisible unless there is a problem.
+Result is a simple module which provides some tools for returning values from a function and signaling to the caller if the function succeeded or failed. Results are an explicitly returned encapsulation and therefore have to be used to access the return of a function, in contrast to a perl6 Failure which is invisible unless there is a problem.
 
 The synopsis below demonstrates handling a Result and just unwrapping it and accepting the exception if it's an Result::Err.
 
@@ -19,7 +19,7 @@ use Result;
 
 # An example function for attempting a conversion of a value to an Int.
 # This function can return two outcomes.
-# An Ok outcome with either an Int or something whcih accepts .Int or otherwise an Err.
+# An Ok outcome with either an Int or something which accepts .Int or otherwise an Err.
 sub to-int(Any $val --> Result::Any) {
     return Ok $val if $val ~~ Int;
     try return Ok $val.Int;
@@ -56,7 +56,7 @@ for @test-values -> $val {
 
 }
 
-# Lasty if in doubt, you can wrap any code with a result block to wrap any exceptions or failures to results.
+# Lastly if in doubt, you can wrap any code with a result block to wrap any exceptions or failures to results.
 # Oh and results will also be returned as is so don't worry if you mix things up!
 for <die fail smile other> {
     my $val = result {
@@ -73,9 +73,9 @@ for <die fail smile other> {
 DESCRIPTION
 ===========
 
-Result was originally inspired by Rust's Result enum, but Perl 6 is a rather different languages and as such while the core conecpt remains, the implimentation and features are distinct. The Result module provides an error management framework similar to Perl6's Failures, but with stricter semantics.
+Result was originally inspired by Rust's Result enum, but Perl 6 is a rather different languages and as such while the core concept remains, the implementation and features are distinct. The Result module provides an error management framework similar to Perl6's Failures, but with stricter semantics.
 
-The error handling pattern provided by the Result module trys to make it as clear as possible to the consumer of a function, that the function can return an error and therefore the consumer must take responsability for handling an error case. Therfore all values returned from a function, for which success is not certain, are of the `Result::Any` type, either an OK or an Err. Hence to obtain the value returned by the function you can choose to dispatch the error yourself with the following methods:
+The error handling pattern provided by the Result module attempts to make as clear as possible to the consumer of a function, that the function can return an error and therefore the consumer must take responsibility for handling an error case. Therefore all values returned from a function, for which success is not certain, are of the `Result::Any` type, either an OK or an Err. Hence to obtain the value returned by the function you can choose to dispatch the error yourself with the following methods:
 
   * `.is-ok`
 
@@ -96,12 +96,12 @@ There are two methods provided in the `Result::Any` interface for chaining compu
 
   * `.map-ok(&code --> Result::Any)`
 
-These routines call the provided `Callable` if their `is-*` identity is `True` and otherwise will simply skip the `Callable` and return the result object as is. The first argument to the `Callable` will be the result object which is being mapped. Be sure to return a result object else you will end up throwing an excepetion.
+These routines call the provided `Callable` if their `is-*` identity is `True` and otherwise will simply skip the `Callable` and return the result object as is. The first argument to the `Callable` will be the result object which is being mapped. Be sure to return a result object else you will end up throwing an exception.
 
-Interfaceing with core Perl 6 error handling
---------------------------------------------
+Interfacing with core Perl 6 error handling
+-------------------------------------------
 
-The idententy methods, `.is-*` work well with the <given when> pattern but the `with` pattern depends on the definedness of the topic. An instace of Result::Any is defined (although an Err is Falsy and a Ok is Trueish), so to use a result object in a with block, use the `.err-to-undef` method (See the synopsis for an example).
+The identity methods, `.is-*` work well with the <given when> pattern but the `with` pattern depends on the definedness of the topic. An instance of Result::Any is defined (although an Err is Falsy and a Ok is Trueish), so to use a result object in a with block, use the `.err-to-undef` method (See the synopsis for an example).
 
 If you want to adapt existing perl6 code to return an appropriate `Result::Any` value, use the `result` sub (See the synopsis for an example and below for more detail).
 
@@ -112,6 +112,15 @@ The perl6 `Failure` constructs provide a slightly different approach for solving
 
 Changes
 =======
+
+head
+====
+
+0.2.5
+
+  * Fixed issue #2 duplicate call of callable block in result routine.
+
+  * Minor tweaks of the documentation.
 
 head
 ====
@@ -145,19 +154,19 @@ head
 
 Major braking changes! Either specify a version tag or you can try the migration script: [migrate-0.1.0-to-0.2.0.p6](https://github.com/samgwise/p6-result/blob/master/tools/migrate-0.1.0-to-0.2.0.p6).
 
-  * Result role renamed Result::Any - use this instead in signitures.
+  * Result role renamed Result::Any - use this instead in signatures.
 
   * All result objects and helpers are exported with `use Result;`. Multiple imports are no longer required.
 
   * Result::Err is no longer a Failure object. This fixes throwing of exceptions when requesting an error message from a Result::Err object which happens in newer version of Rakudo.
 
-  * Result::OK renamed to Result::Ok. The nameing is now more consistent and feels better.
+  * Result::OK renamed to Result::Ok. The naming is now more consistent and feels better.
 
-  * Factory routine Error renamed Err. More consistent nameing.
+  * Factory routine Error renamed Err. More consistent naming.
 
-  * Factory routine OK renamed Ok. More consistent nameing. Lowercase was considered but it clashes to easily with the Test module so leading case naming was maintained for factory routines.
+  * Factory routine OK renamed Ok. More consistent naming. Lowercase was considered but it clashes to easily with the Test module so leading case naming was maintained for factory routines.
 
-  * Type constraining of Result::Ok payloads removed as I have not encoutered a useful application of this feature whle using the Result module.
+  * Type constraining of Result::Ok payloads removed as I have not encountered a useful application of this feature while using the Result module.
 
 0.1.0
 -----
